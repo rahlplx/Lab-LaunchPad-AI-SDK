@@ -90,14 +90,15 @@ actual evidence instead of the agent's own say-so.
   `.opencode/agent/`/`.opencode/command/` project directories. Confirmed
   live via `opencode debug skill`/`opencode agent list` and a real
   failed command invocation; see `FAILURE-MODES.md`.
-- **Secret detection is narrow by design, not exhaustive.** `policy.json`
-  currently recognizes one specific pattern (`sk_live_...`, a live Stripe
-  secret key) — there's no generic API-key, AWS-key, or JWT pattern yet.
-  Pasting a different provider's live credential into a command or file
-  won't be caught. This is a real gap in current coverage, not just a
-  theoretical evasion ceiling like the regex-interception point above —
+- **Secret detection covers common providers, not every possible one.**
+  `policy.json` recognizes live Stripe keys, AWS access keys, OpenAI
+  keys, Google API keys, SendGrid keys, Twilio keys, generic Bearer
+  tokens, database connection strings with embedded credentials, JWTs,
+  and SSH private keys (10 patterns total, all confirm-level). A
+  provider or credential shape not in this list still won't be caught —
   worth knowing if you're integrating a service `policy.json` doesn't
-  already have a rule for.
+  already have a rule for. See `FAILURE-MODES.md` #24 for the full list
+  and how each was verified.
 - **Live-verified on all 3 platforms.** Loading the plugin into a real
   Claude Code session (`claude --plugin-dir founder-os/`) confirmed the
   PreToolUse hook's three decision states (allow/ask/deny), the Stop

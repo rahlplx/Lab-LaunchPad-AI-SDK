@@ -113,6 +113,87 @@
       "keywords": ["curl", "wget", "nc"]
     },
     {
+      "id": "secrets-aws-access-key",
+      "category": "secrets",
+      "scope": "any",
+      "pattern": "AKIA[0-9A-Z]{16}",
+      "action": "confirm",
+      "message": "An AWS access key ID is present. Confirm this is intentional, not a copy-paste of a real credential.",
+      "keywords": ["AKIA"]
+    },
+    {
+      "id": "secrets-openai-key",
+      "category": "secrets",
+      "scope": "any",
+      "pattern": "sk-[A-Za-z0-9]{20,}",
+      "action": "confirm",
+      "message": "An OpenAI-style secret key is present. Confirm this is intentional, not a copy-paste of a real credential.",
+      "keywords": ["sk-"]
+    },
+    {
+      "id": "secrets-google-api-key",
+      "category": "secrets",
+      "scope": "any",
+      "pattern": "AIza[0-9A-Za-z\\-_]{35}",
+      "action": "confirm",
+      "message": "A Google API key is present. Confirm this is intentional, not a copy-paste of a real credential.",
+      "keywords": ["AIza"]
+    },
+    {
+      "id": "secrets-sendgrid-key",
+      "category": "secrets",
+      "scope": "any",
+      "pattern": "SG\\.[A-Za-z0-9_-]{20,}\\.[A-Za-z0-9_-]{20,}",
+      "action": "confirm",
+      "message": "A SendGrid API key is present. Confirm this is intentional, not a copy-paste of a real credential.",
+      "keywords": ["SG."]
+    },
+    {
+      "id": "secrets-twilio-key",
+      "category": "secrets",
+      "scope": "any",
+      "pattern": "SK[a-f0-9]{32}",
+      "action": "confirm",
+      "message": "A Twilio API key is present. Confirm this is intentional, not a copy-paste of a real credential.",
+      "keywords": ["SK"]
+    },
+    {
+      "id": "secrets-bearer-token",
+      "category": "secrets",
+      "scope": "any",
+      "pattern": "Bearer\\s+[A-Za-z0-9\\-_.]{20,}",
+      "action": "confirm",
+      "message": "A Bearer authorization token is present. Confirm this is intentional, not a copy-paste of a real credential.",
+      "keywords": ["Bearer"]
+    },
+    {
+      "id": "secrets-db-connection-string",
+      "category": "secrets",
+      "scope": "any",
+      "pattern": "(postgres(?:ql)?|mysql|mongodb(?:\\+srv)?):\\/\\/[^\\s:@]+:[^\\s@]+@",
+      "action": "confirm",
+      "message": "A database connection string with embedded credentials is present. Confirm this is intentional, not a copy-paste of a real connection string.",
+      "keywords": ["postgres://", "postgresql://", "mysql://", "mongodb://", "mongodb+srv://"]
+    },
+    {
+      "id": "secrets-jwt",
+      "category": "secrets",
+      "scope": "any",
+      "pattern": "eyJ[A-Za-z0-9_-]+\\.eyJ[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+",
+      "action": "confirm",
+      "message": "A JWT is present. Confirm this is intentional, not a copy-paste of a real token.",
+      "keywords": ["eyJ"]
+    },
+    {
+      "id": "secrets-ssh-private-key",
+      "category": "secrets",
+      "scope": "any",
+      "pattern": "-----BEGIN (RSA |OPENSSH |EC |DSA )?PRIVATE KEY-----",
+      "action": "confirm",
+      "message": "An SSH private key is present. Confirm this is intentional, not a copy-paste of a real key.",
+      "keywords": ["PRIVATE KEY"]
+    },
+    {
       "id": "prod-boundary-destructive-with-prod-flag",
       "category": "prod_boundary",
       "scope": "bash",

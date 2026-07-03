@@ -385,15 +385,31 @@ founder's confirmation on Claude Code) becomes a hard block on OpenCode
 instead, with no middle option available. Disclosed in `README.md` and
 `templates/AGENTS.md.tpl`.
 
-## 24. Secret detection is narrow by design — MEDIUM — ACCEPTED RISK, tracked for expansion
+## 24. Secret detection is narrow by design — MEDIUM — PARTIALLY FIXED (expanded, still not exhaustive)
 
-`policy.json` currently recognizes exactly one pattern: a live Stripe
-secret key (`sk_live_...`). No generic API-key, AWS-key, or JWT pattern
-exists yet — pasting a different provider's live credential into a
-command or file won't be caught by this layer at all. Unlike #21/#22/#23,
-this is a coverage gap that could be closed (more patterns added), not a
-structural platform ceiling — tracked here rather than in `README.md`
-alone so it doesn't get lost.
+`policy.json` originally recognized exactly one pattern: a live Stripe
+secret key (`sk_live_...`). Expanded to 9 additional `scope:"any"` rules
+(all `category:"secrets"`, all `action:"confirm"`): AWS access key
+(`AKIA...`), OpenAI key (`sk-...`, distinguishable from Stripe's
+`sk_live_`/`sk_test_` by the missing underscore — verified live, see
+below), Google API key (`AIza...`), SendGrid key, Twilio key, generic
+Bearer token, database connection strings with embedded credentials
+(`postgres://`/`mysql://`/`mongodb://` forms), JWTs, and SSH private key
+headers. Each has TDD coverage in `tests/policy-cases.json` (a Bash
+positive, a Write/file-content positive, and at least one benign
+near-miss negative per rule to guard false positives) and was live-tested
+against the real `bin/policy-check.js` hook binary (not just the unit
+tests) in a throwaway `/tmp` project — both a real AWS-key-shaped string
+and an SSH key header correctly triggered `ask`, and a truncated
+`AKIAEXAMPLE`-style placeholder correctly did not.
+
+Still not exhaustive by design — no generic "looks like a long random
+token" heuristic exists (too high a false-positive rate against normal
+code), and any credential shape not in this list (e.g. a different
+provider's proprietary key format) still won't be caught. Unlike
+#21/#22/#23, this remains a coverage gap that can keep being closed
+incrementally (more patterns added as they come up), not a structural
+platform ceiling.
 
 ## 25. A `founder.config.json` `testCommand` runs with no sandboxing — LOW — ACCEPTED RISK
 

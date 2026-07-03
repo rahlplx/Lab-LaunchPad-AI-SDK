@@ -32,6 +32,30 @@ what a command expects) bump the **major** version.
 
 ### Security
 
+## [0.5.0] - 2026-07-03
+
+Closes the audit's "secret detection is narrow" gap (previously tracked
+as `FAILURE-MODES.md` #24, ACCEPTED RISK) with 9 new rule additions —
+a genuine `policy.json` rule-set expansion, hence the minor bump.
+
+### Added
+- 9 new `policy.json` secret-detection rules (all `category:"secrets"`,
+  `scope:"any"`, `action:"confirm"`): AWS access key, OpenAI key, Google
+  API key, SendGrid key, Twilio key, generic Bearer token, database
+  connection strings with embedded credentials, JWTs, and SSH private
+  key headers. Each has a Bash-command case, a Write/file-content case,
+  and at least one benign near-miss negative case in
+  `tests/policy-cases.json` (e.g. a truncated `AKIAEXAMPLE`-style
+  placeholder correctly does not trigger). All verified to run within
+  the existing 250ms ReDoS budget and live-tested against the real
+  `bin/policy-check.js` hook binary in a throwaway project, not just the
+  unit-test fixture.
+
+### Fixed
+- Verified the new OpenAI-key rule (`sk-...`) does not false-positive
+  against a Stripe live key (`sk_live_...`) — the two are distinguishable
+  by the missing underscore, confirmed with a dedicated regression case.
+
 ## [0.4.0] - 2026-07-03
 
 Renamed the product from "founder-os" to **Solo Founder's Wingman**
