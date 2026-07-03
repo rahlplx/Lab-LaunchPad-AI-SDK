@@ -32,6 +32,7 @@ We will move from a flat root file structure to a `.okf/` knowledge bundle:
 - **Structural Parsing**: Enforcing `# Schema` and `# Examples` sections ensures consistent tool usage.
 
 ## 4. Gap Analysis (OKF vs. Current)
+
 | Feature | Current (Founder OS) | OKF Enhanced |
 |---|---|---|
 | **Discovery** | Full PRD scan required. | Progressive (`index.md`). |

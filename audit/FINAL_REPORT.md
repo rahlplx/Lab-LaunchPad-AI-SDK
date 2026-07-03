@@ -4,9 +4,10 @@
 Founder OS is a robust safety and orchestration layer for non-technical founders using AI agents. It successfully implements the 13-skill framework (LEGO, SHOW, SEB, PATH, etc.) as a terminal-based plugin. However, to evolve into an enterprise-grade standalone freelancer platform, several critical gaps must be addressed.
 
 ## 2. Alignment with PEP & Enterprise Frameworks
+
 | Framework Component | Current Status | Alignment |
 |---|---|---|
-| **LEGO (Architecture)** | `map-architecture` skill | **High**. Correctlly maps Pages/Data/Auth. |
+| **LEGO (Architecture)** | `map-architecture` skill | **High**. Correctly maps Pages/Data/Auth. |
 | **SHOW (UI/UX)** | `show-reference` skill | **High**. Uses Sample/Highlight/Omit/Want. |
 | **PLUG (Integrations)** | `integrate-service` skill | **High**. Gated by policy and documentation. |
 | **SEB (Debugging)** | `debug-seb` skill | **High**. Evidence-based (Screenshot/Error/Before). |
