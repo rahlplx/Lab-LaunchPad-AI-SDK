@@ -51,7 +51,7 @@ function findSection(lines, heading) {
   return { startIdx, endIdx, body: lines.slice(startIdx + 1, endIdx).join('\n') };
 }
 
-function lintPrd(content) {
+function lintPrd(content, options = {}) {
   const findings = [];
   const lines = content.split('\n');
 
@@ -90,13 +90,27 @@ function lintPrd(content) {
     }
   }
 
+  // Opt-in: only checked when the caller passes --require-diagram (used by
+  // /map-architecture's own self-verification step right after it writes a
+  // diagram, not by the default gate /founding-prompt runs before any
+  // diagram could exist yet).
+  if (options.requireArchitectureDiagram) {
+    const dataModelSection = findSection(lines, 'Data model');
+    const hasMermaidBlock = dataModelSection && /```mermaid[\s\S]*?```/.test(dataModelSection.body);
+    if (!hasMermaidBlock) {
+      findings.push('"## Data model" is missing a ```mermaid diagram block -- run /map-architecture to add one');
+    }
+  }
+
   return findings;
 }
 
 function main() {
-  const prdPath = process.argv[2];
+  const args = process.argv.slice(2);
+  const prdPath = args[0];
+  const requireArchitectureDiagram = args.includes('--require-diagram');
   if (!prdPath) {
-    console.error('Usage: lint-prd.js <path-to-PRD.md>');
+    console.error('Usage: lint-prd.js <path-to-PRD.md> [--require-diagram]');
     process.exit(2);
   }
   if (!fs.existsSync(prdPath)) {
@@ -105,7 +119,7 @@ function main() {
   }
 
   const content = fs.readFileSync(prdPath, 'utf8');
-  const findings = lintPrd(content);
+  const findings = lintPrd(content, { requireArchitectureDiagram });
 
   if (findings.length === 0) {
     console.log(`lint-prd: ${path.relative(process.cwd(), prdPath)} passes the PRD quality gate.`);

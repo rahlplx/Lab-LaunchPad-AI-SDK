@@ -32,6 +32,32 @@ what a command expects) bump the **major** version.
 
 ### Security
 
+## [0.7.0] - 2026-07-03
+
+Closes the audit's "no visual output" gap for `/map-architecture` — a new
+opt-in CLI flag on `bin/lint-prd.js`, hence the minor bump.
+
+### Added
+- `bin/lint-prd.js --require-diagram`: an opt-in check that
+  `## Data model` contains a ```mermaid``` fenced block, used by
+  `/map-architecture`'s own new self-verification step. Opt-in so
+  `/founding-prompt`'s earlier PRD-quality-gate run (before any
+  architecture is mapped) isn't affected.
+
+### Changed
+- `/map-architecture` now also appends a Mermaid `flowchart` diagram
+  (Pages → API → Auth → Database → Integrations) to PRD.md's
+  `## Data model`, alongside the existing prose, then verifies it landed
+  via `--require-diagram` instead of just claiming it did. Live-tested
+  end-to-end in a real session against a realistic PRD — confirmed
+  directly (not via the session's own self-report) that a syntactically
+  valid `flowchart` block was actually written and that
+  `lint-prd.js --require-diagram` independently passes against it.
+
+### Fixed
+
+### Security
+
 ## [0.6.0] - 2026-07-03
 
 Closes the audit's "no onboarding entry point" gap with a new

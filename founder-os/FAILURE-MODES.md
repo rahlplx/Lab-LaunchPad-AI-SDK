@@ -539,3 +539,29 @@ the exact slash form if orientation doesn't seem to trigger.
 the Claude Code REPL, where slash-command autocomplete/UI may behave
 differently from this environment's `-p`/non-interactive invocation) —
 this finding is scoped to what could actually be verified here.
+
+## 31. `/map-architecture` produced text-only output, no visual diagram — MEDIUM — FIXED
+
+**What happened:** the audit flagged that non-technical founders think
+visually, but `/map-architecture` only ever wrote prose into PRD.md's
+`## Data model`/`## Integrations` sections — no diagram of any kind.
+
+**Fix:** the skill now also appends a Mermaid `flowchart` block to the
+end of `## Data model` (Pages → API → Auth → Database → each
+Integration, as boxes and arrows) — a visual of the same facts already
+in the prose above it, not new information. A new opt-in
+`bin/lint-prd.js --require-diagram` flag lets the skill verify its own
+output landed, rather than just claiming it did (mirrors this plugin's
+existing "evidence, not say-so" discipline). The flag is opt-in
+specifically so `/founding-prompt`'s own earlier PRD-quality-gate run
+(before any architecture has been mapped, so no diagram could exist yet)
+isn't broken by it.
+
+**Verified live:** ran `/map-architecture` in a real `claude
+--plugin-dir` session against a realistic filled-in PRD.md (a toy
+scheduling-app product), had it describe Pages/Auth/API/Integrations in
+conversation, and confirmed directly (not just trusting the session's
+own self-report) that PRD.md's `## Data model` gained both the expected
+prose and a syntactically real, well-formed `flowchart LR` block with
+correctly connected subgraphs and arrows — and that
+`lint-prd.js --require-diagram` independently passes against the result.

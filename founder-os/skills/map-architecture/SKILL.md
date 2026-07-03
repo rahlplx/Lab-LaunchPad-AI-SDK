@@ -32,14 +32,25 @@ invocation can read, instead of tribal knowledge in your head.
 
 4. **Write into PRD.md's `## Data model` and `## Integrations` sections**
    (the exact headers in `templates/PRD.md.tpl`) — don't fork a separate
-   architecture doc that can silently drift out of sync.
+   architecture doc that can silently drift out of sync. Non-technical
+   founders think visually, so also append a Mermaid `flowchart` block to
+   the end of `## Data model` showing the same LEGO blocks as boxes and
+   arrows (Pages → API → Database, plus each Integration as its own box)
+   — a diagram of the same facts already in the prose above it, not new
+   information.
 
-5. **Cross-check integrations against reality.** For each named
+5. **Verify the diagram was actually written**, don't just claim it —
+   run `node <founder-os-plugin-dir>/bin/lint-prd.js <project>/PRD.md
+   --require-diagram` and fix `## Data model` if it fails. This is the
+   same "show evidence, not say-so" discipline `/verify-path` and the
+   Stop-hook verify gate already hold the rest of this plugin to.
+
+6. **Cross-check integrations against reality.** For each named
    integration, confirm a real MCP server exists in `.mcp.json` or a plan
    is stated in `references/mcp-servers.md`. Hand the actual connection
    work to `/integrate-service` — this skill maps, it doesn't wire.
 
-6. **Flag Auth explicitly.** It's the block founders skip most. Nail down
+7. **Flag Auth explicitly.** It's the block founders skip most. Nail down
    "who can access what" concretely — e.g. row-level security — before any
    building starts, not after.
 

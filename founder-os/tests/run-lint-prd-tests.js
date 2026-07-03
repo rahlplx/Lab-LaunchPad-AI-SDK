@@ -30,8 +30,8 @@ function check(description, condition, detail) {
   }
 }
 
-function runLintPrd(prdPath) {
-  const args = prdPath ? [LINT_PRD, prdPath] : [LINT_PRD];
+function runLintPrd(prdPath, extraArgs = []) {
+  const args = prdPath ? [LINT_PRD, prdPath, ...extraArgs] : [LINT_PRD];
   return spawnSync(process.execPath, args, { encoding: 'utf8' });
 }
 
@@ -148,6 +148,43 @@ function main() {
         'lint-prd: flags Behavior rules with no WHEN/THEN-formatted line',
         result.status === 1 && result.stderr.includes('no WHEN/THEN-formatted rule'),
         result.stderr
+      );
+    }
+  );
+
+  withFixture(VALID_PRD, (prdPath) => {
+    const result = runLintPrd(prdPath, ['--require-diagram']);
+    check(
+      '--require-diagram: flags a Data model section with no mermaid diagram block',
+      result.status === 1 && result.stderr.includes('missing a ```mermaid diagram block'),
+      result.stderr
+    );
+  });
+
+  withFixture(VALID_PRD, (prdPath) => {
+    // Without --require-diagram, the same PRD (no diagram) still passes --
+    // confirms the check is opt-in (used by /map-architecture's own
+    // self-verification step after writing a diagram), not baked into the
+    // default gate /founding-prompt runs before any diagram could exist.
+    const result = runLintPrd(prdPath);
+    check(
+      'without --require-diagram, a PRD with no diagram still passes (opt-in check)',
+      result.status === 0 && result.stdout.includes('passes the PRD quality gate'),
+      result.stdout + result.stderr
+    );
+  });
+
+  withFixture(
+    VALID_PRD.replace(
+      '## Data model\n\n- Users: name, email, role\n',
+      '## Data model\n\n- Users: name, email, role\n\n```mermaid\nflowchart TD\n  Pages --> API\n  API --> Database\n```\n'
+    ),
+    (prdPath) => {
+      const result = runLintPrd(prdPath, ['--require-diagram']);
+      check(
+        '--require-diagram: passes once a mermaid block exists in Data model',
+        result.status === 0 && result.stdout.includes('passes the PRD quality gate'),
+        result.stdout + result.stderr
       );
     }
   );
