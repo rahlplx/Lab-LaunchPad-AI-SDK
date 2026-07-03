@@ -496,3 +496,46 @@ for per-project differences instead of a nonexistent project file.
 platforms' conventions (Claude Code and OpenCode both support project-
 scoped config), not verified against Codex directly — exactly the kind of
 assumption this live-testing pass exists to catch.
+
+## 30. A skill's short slash-style trigger phrase is not deterministically routed — MEDIUM — ACCEPTED RISK (structural: Skills are model-invoked, not dispatched)
+
+**What was found, live:** the new `/get-started` onboarding skill (added
+to close the audit's "no onboarding entry point" gap) was live-tested
+across 9 independent, fresh `claude --plugin-dir` sessions (fresh `/tmp`
+project each time, to rule out any cross-run state contamination) typing
+exactly `/get-started`. Only 2 of 9 correctly invoked the intended
+`get-started` skill; the other 7 invoked `validate-demand` instead — a
+different, semantically-adjacent skill, seemingly favored by the model's
+own judgment for a terse prompt. A full natural-language prompt ("I'm a
+new founder, please help me get oriented...") and the bare word
+`get-started` (no leading slash) both routed correctly every time they
+were tried. Ruled out as causes: skill-name collision with an existing
+skill/command (renamed from `start` to `get-started` specifically to
+test this — a name with no substring overlap with anything else
+registered — made no difference), and CLI diagnostic flags
+(`--include-hook-events`/`--output-format stream-json` vs. plain `-p`
+gave the same mixed results either way).
+
+**Why this is a structural limitation, not a fixable bug:** unlike
+`commands/*.md` (deterministically dispatched slash commands), this
+plugin's skills (including this new one) are Claude Code Skills —
+model-invoked capabilities matched by the model's own judgment against
+each skill's `description:` frontmatter, not deterministically parsed
+the way a literal command name is. A terse, ambiguous trigger phrase is
+inherently subject to the model's own routing judgment and its
+run-to-run sampling variance; no amount of description-wording tuning
+observed here made this fully reliable (only full natural-language
+framing did).
+
+**Mitigation shipped:** `get-started/SKILL.md`'s description explicitly
+names the exact trigger phrases and states it should run before any
+other skill even if the founder's message sounds like something else —
+this measurably helps but does not guarantee routing for the short
+`/get-started` form. `README.md`'s "Installing" section notes that
+describing what you want in plain language is more reliable than typing
+the exact slash form if orientation doesn't seem to trigger.
+
+**Not yet tested:** true interactive-TTY usage (a real founder typing in
+the Claude Code REPL, where slash-command autocomplete/UI may behave
+differently from this environment's `-p`/non-interactive invocation) —
+this finding is scoped to what could actually be verified here.

@@ -32,6 +32,32 @@ what a command expects) bump the **major** version.
 
 ### Security
 
+## [0.6.0] - 2026-07-03
+
+Closes the audit's "no onboarding entry point" gap with a new
+`/get-started` skill — a genuine new skill addition, hence the minor bump.
+
+### Added
+- `skills/get-started/SKILL.md` — a plain-language welcome/orientation
+  skill for a founder's first 5 minutes with this plugin, ending in a
+  hand-off to `/validate-demand`. Documented in `README.md`'s
+  "Installing" section as the first thing to run on any platform.
+
+### Changed
+- Live-testing across 9 independent, fresh `claude --plugin-dir` sessions
+  found that typing the exact short `/get-started` phrase is not
+  deterministically routed to the intended skill (2/9 correct; the rest
+  invoked `validate-demand` instead) — a structural property of
+  model-invoked Skills, not a fixable bug (ruled out name collisions and
+  CLI flags as causes). Full natural-language framing routed correctly
+  every time it was tried. Documented honestly rather than claiming a
+  guaranteed entry point — see `FAILURE-MODES.md` #30 and the
+  corresponding `README.md` note.
+
+### Fixed
+
+### Security
+
 ## [0.5.0] - 2026-07-03
 
 Closes the audit's "secret detection is narrow" gap (previously tracked

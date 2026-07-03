@@ -154,6 +154,14 @@ under OpenCode at all currently; see `FAILURE-MODES.md` for why.
 sandbox policy defaults are wired up; the plugin doesn't yet build against
 Codex's own separate `hooks` feature (see `FAILURE-MODES.md` #22).
 
+**First thing to run, on any platform:** `/get-started` — a plain-language
+welcome for a founder who hasn't used this plugin before, ending in a
+hand-off to `/validate-demand`. If typing the exact `/get-started` phrase
+doesn't seem to trigger it, just describe what you want in plain language
+("help me get oriented") instead — live-testing found the short slash form
+isn't always reliably routed by the model (structural, not a bug we can
+fully fix; see `FAILURE-MODES.md` #30), but natural language always worked.
+
 ## Development
 
 ```bash
