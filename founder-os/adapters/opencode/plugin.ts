@@ -1,5 +1,5 @@
 /**
- * founder-os OpenCode adapter.
+ * Solo Founder's Wingman (founder-os) OpenCode adapter.
  *
  * Implements the same policy.json rule set as the Claude Code hook
  * (bin/policy-check.js), via OpenCode's `tool.execute.before` plugin hook.
@@ -73,7 +73,7 @@ interface PolicyRule {
  * returning undefined. Without this, a malformed policy.json used to
  * invert the intended fail-open behavior into fail-everything-closed:
  * loadRules() returned undefined without throwing, the try/catch in
- * FounderOsPolicy() below never fired, and the next evaluate() call threw
+ * FounderWingmanPolicy() below never fired, and the next evaluate() call threw
  * on a non-iterable from inside the uncaught tool.execute.before hook --
  * which this module's own design treats as a block, so every subsequent
  * tool call got denied instead of the documented "fail open, log loudly."
@@ -140,7 +140,7 @@ interface EvaluationResult {
  * Rule compiling/matching itself is shared with bin/policy-check.js via
  * core/policy-engine.js (including the WeakMap compiled-rule cache, keyed
  * by rules-array identity -- a real win here specifically, since
- * FounderOsPolicy() below loads rules once at plugin init and the
+ * FounderWingmanPolicy() below loads rules once at plugin init and the
  * returned tool.execute.before handler calls evaluate() on every tool
  * call for the life of the session, unlike the Claude Code adapter, which
  * is a fresh process per hook invocation). What's left here is OpenCode-
@@ -174,14 +174,14 @@ export function evaluate(
 
 export { loadRules, extractCheckableStrings, loadSettings };
 
-export const FounderOsPolicy = async () => {
+export const FounderWingmanPolicy = async () => {
   let rules: PolicyRule[] = [];
   try {
     rules = loadRules();
   } catch (err) {
     // Fail open rather than crashing plugin init / disabling all plugins on
     // a missing or malformed policy.json -- but say so loudly.
-    console.error("[founder-os] Failed to load policy rules:", err);
+    console.error("[founder-wingman] Failed to load policy rules:", err);
   }
   const settings = loadSettings();
 
@@ -203,4 +203,4 @@ export const FounderOsPolicy = async () => {
   };
 };
 
-export default FounderOsPolicy;
+export default FounderWingmanPolicy;

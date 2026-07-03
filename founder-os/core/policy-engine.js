@@ -52,7 +52,7 @@ function compileRules(rules) {
       // validatePolicyDocument() before compileRules() ever runs. Kept as
       // defense-in-depth for any caller that builds a rule list without
       // going through schema validation first.
-      console.error(`[founder-os] bad pattern in rule ${rule.id}:`, err);
+      console.error(`[founder-wingman] bad pattern in rule ${rule.id}:`, err);
       continue;
     }
     const keywords = Array.isArray(rule.keywords) ? rule.keywords.map((k) => k.toLowerCase()) : null;

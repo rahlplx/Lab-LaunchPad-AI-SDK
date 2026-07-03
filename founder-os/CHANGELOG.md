@@ -32,6 +32,34 @@ what a command expects) bump the **major** version.
 
 ### Security
 
+## [0.4.0] - 2026-07-03
+
+Renamed the product from "founder-os" to **Solo Founder's Wingman**
+(installable plugin id: `founder-wingman`) to resolve the long-standing
+naming-collision issue (README previously pointed here for "the known
+open issue," but no entry existed yet — that stale pointer is fixed by
+this entry). See `DECISIONS.md` for the full rationale.
+
+### Changed
+- Product/display name and installable identifiers renamed:
+  `founder-os/package.json`, `founder-os/.claude-plugin/plugin.json`,
+  root `.claude-plugin/marketplace.json` (plugin id + owner), and
+  `founder-os/adapters/opencode/package.json` now all say
+  `founder-wingman`. The OpenCode adapter's exported policy function
+  `FounderOsPolicy` is renamed to `FounderWingmanPolicy` (default export
+  unchanged in shape, only the name — a hook-adjacent export rename,
+  hence the minor bump per this file's own versioning policy).
+- The repo's internal directory path stays `founder-os/` deliberately —
+  not renamed. Renaming it would rewrite every relative path in the
+  codebase (imports, templates, `marketplace.json`'s `source` field,
+  `AGENTS.md.tpl`, this very CHANGELOG's own file path) for no
+  user-facing benefit, since founders interact with the installed plugin
+  id and product name, never the source directory name.
+- Anyone who installed the plugin under the old `founder-os` marketplace
+  id needs to `claude plugin uninstall founder-os` and reinstall as
+  `founder-wingman@lab-launchpad-ai-sdk` — see `README.md`'s "Installing"
+  section.
+
 ## [0.3.3] - 2026-07-03
 
 Third live install/test pass, this time against Codex CLI. No OpenAI

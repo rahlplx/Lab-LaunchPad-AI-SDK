@@ -58,6 +58,35 @@ installed downstream.
 
 ---
 
+## Renamed to "Solo Founder's Wingman"; kept the `founder-os/` directory path
+
+**Decision:** the product/plugin is renamed from "founder-os" to **Solo
+Founder's Wingman** (installable plugin id `founder-wingman`), resolving
+the naming collision the README flagged since early releases
+(`founderos.com`, and other unrelated GitHub repos also called
+`founder-os`). The repo's internal directory path stays `founder-os/`.
+
+**Why not rename the directory too:** every relative reference in the
+codebase — `.claude-plugin/marketplace.json`'s `"source": "./founder-os"`,
+templates' `{{FOUNDER_OS_PATH}}` placeholders, this file's own git
+history, `bin/scan-secrets.js`'s path-exclusion prefix — points at the
+directory by name. Renaming it buys nothing for a founder, who only ever
+sees the installed plugin id and product name, never this repo's internal
+layout, and would add a large, purely-cosmetic diff with real regression
+risk (broken relative paths) for zero user-facing benefit. Splitting
+"what the founder sees" from "where the code lives" is a deliberate,
+narrower-blast-radius version of the same rename.
+
+**What changed:** `package.json`/`plugin.json`/`marketplace.json`
+`"name"` fields, the OpenCode adapter's exported `FounderOsPolicy` →
+`FounderWingmanPolicy`, and product-facing prose (`README.md`,
+log lines in `bin/audit-summary.js`). Historical dated records
+(`CHANGELOG.md`'s past entries, `audit/*.md` at the repo root) are left
+as-is — they're a record of what was true when written, not live
+documentation.
+
+---
+
 ## DECISIONS.md is the tiebreaker
 
 When two files in this repo (a code comment, a README claim, a skill's

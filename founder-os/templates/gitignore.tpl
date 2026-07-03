@@ -1,4 +1,4 @@
-# Scaffolded by founder-os. AGENTS.md tells the agent (and you) that secrets
+# Scaffolded by Solo Founder's Wingman. AGENTS.md tells the agent (and you) that secrets
 # should never be committed -- this file is what actually makes that true by
 # default, instead of relying on everyone remembering every time.
 

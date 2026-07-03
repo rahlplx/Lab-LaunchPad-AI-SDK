@@ -1,22 +1,22 @@
 {
   "name": "lab-launchpad-ai-sdk",
-  "description": "Marketplace catalog for founder-os, an agent-agnostic safety and lifecycle plugin for non-technical solo founders building products with AI coding agents.",
+  "description": "Marketplace catalog for Solo Founder's Wingman, an agent-agnostic safety and lifecycle plugin for non-technical solo founders building products with AI coding agents.",
   "owner": {
-    "name": "Founder OS",
+    "name": "Solo Founder's Wingman",
     "email": "teambiggapon@gmail.com"
   },
   "plugins": [
     {
-      "name": "founder-os",
+      "name": "founder-wingman",
       "description": "Lifecycle orchestrator, safety rails, and a founder-friendly skill library for non-technical solo founders building products with AI coding agents.",
       "category": "safety",
       "author": {
-        "name": "Founder OS",
+        "name": "Solo Founder's Wingman",
         "email": "teambiggapon@gmail.com"
       },
       "source": "./founder-os",
       "homepage": "https://github.com/rahlplx/lab-launchpad-ai-sdk",
-      "version": "0.3.3",
+      "version": "0.4.0",
       "keywords": [
         "non-technical-founder",
         "vibe-coding",

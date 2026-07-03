@@ -41,7 +41,7 @@ function appendEntry(entry) {
     };
     fs.appendFileSync(LOG_PATH, JSON.stringify(record) + '\n');
   } catch (err) {
-    console.error('[founder-os] audit log write failed (non-fatal, decision unaffected):', err.message);
+    console.error('[founder-wingman] audit log write failed (non-fatal, decision unaffected):', err.message);
   }
 }
 

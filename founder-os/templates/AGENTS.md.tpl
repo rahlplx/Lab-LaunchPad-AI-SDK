@@ -1,8 +1,8 @@
 <!--
-  Generated/maintained by founder-os. If an AGENTS.md already existed (e.g.
-  created by this tool's own `/init`), founder-os APPENDS/ENRICHES it rather
-  than overwriting — never destroy a host tool's native scaffold.
-  Sections marked [managed by founder-os] are maintained by founder-os
+  Generated/maintained by Solo Founder's Wingman. If an AGENTS.md already
+  existed (e.g. created by this tool's own `/init`), it APPENDS/ENRICHES it
+  rather than overwriting — never destroy a host tool's native scaffold.
+  Sections marked [managed by founder-wingman] are maintained by this
   tooling where implemented -- today, only CHANGELOG.md is auto-appended by
   bin/doc-sync.sh; these AGENTS.md sections are not yet auto-rewritten and
   should be kept current by hand until that lands.
@@ -30,7 +30,7 @@
 - Before claiming a task is "done," show the verification evidence (test
   output, screenshot, or curl result) — a diff is not proof
 
-## Known Limitations by Platform [managed by founder-os]
+## Known Limitations by Platform [managed by founder-wingman]
 
 This project's safety rails degrade gracefully depending on which AI coding
 agent you're using. Read this before assuming equal protection everywhere —
@@ -68,7 +68,7 @@ in plain terms first, technical detail second.
 |---|---|---|
 | Claude Code | Enforced by code (PreToolUse hook), supports hard-block or ask-to-confirm | `hooks/hooks.json` intercepts before the tool call runs |
 | OpenCode | Enforced by code (`tool.execute.before`); no distinct "ask" mode exists on this platform (confirmed), so confirm-level rules also hard-block | `plugin.ts` intercepts before the tool call runs |
-| Codex CLI | Enforced by sandbox policy only; a separate Codex `hooks` feature exists but founder-os doesn't build against it yet (unverified, see `FAILURE-MODES.md` #22) | `config.toml` `approval_policy=on-request` + `sandbox_mode=workspace-write` — requires you to actually approve each risky action, don't set `approval_policy=never`. Set this in `~/.codex/config.toml` only — Codex does not read a project-scoped `.codex/config.toml` |
+| Codex CLI | Enforced by sandbox policy only; a separate Codex `hooks` feature exists but Solo Founder's Wingman doesn't build against it yet (unverified, see `FAILURE-MODES.md` #22) | `config.toml` `approval_policy=on-request` + `sandbox_mode=workspace-write` — requires you to actually approve each risky action, don't set `approval_policy=never`. Set this in `~/.codex/config.toml` only — Codex does not read a project-scoped `.codex/config.toml` |
 
 LSP-based background diagnostics (a cheap pre-check before the verify gate)
 only run on Claude Code — OpenCode and Codex rely more heavily on the
@@ -78,9 +78,9 @@ The 3-Layer Review's "second AI" layer only catches genuinely different bugs
 if it's actually a different model provider — a same-family subagent persona
 is a weaker substitute. Paste into a different provider when it matters.
 
-## Current Status [managed by founder-os]
+## Current Status [managed by founder-wingman]
 - {{FEATURE_1}}: 📋 Planned
 - {{FEATURE_2}}: 📋 Planned
 
-## Known Issues [managed by founder-os]
+## Known Issues [managed by founder-wingman]
 - (none yet)

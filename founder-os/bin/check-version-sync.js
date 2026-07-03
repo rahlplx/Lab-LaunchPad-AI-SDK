@@ -19,13 +19,13 @@ function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, 'utf8'));
 }
 
-function findFounderOsPluginEntry(marketplace) {
+function findWingmanPluginEntry(marketplace) {
   if (!marketplace || !Array.isArray(marketplace.plugins)) {
     throw new Error(`${MARKETPLACE_JSON}: missing a "plugins" array`);
   }
-  const entry = marketplace.plugins.find((p) => p && p.name === 'founder-os');
+  const entry = marketplace.plugins.find((p) => p && p.name === 'founder-wingman');
   if (!entry) {
-    throw new Error(`${MARKETPLACE_JSON}: no plugin entry named "founder-os" in "plugins"`);
+    throw new Error(`${MARKETPLACE_JSON}: no plugin entry named "founder-wingman" in "plugins"`);
   }
   return entry;
 }
@@ -34,12 +34,12 @@ function main() {
   const pkg = readJson(PACKAGE_JSON);
   const plugin = readJson(PLUGIN_JSON);
   const marketplace = readJson(MARKETPLACE_JSON);
-  const marketplaceEntry = findFounderOsPluginEntry(marketplace);
+  const marketplaceEntry = findWingmanPluginEntry(marketplace);
 
   const versions = {
     'founder-os/package.json': pkg.version,
     'founder-os/.claude-plugin/plugin.json': plugin.version,
-    '.claude-plugin/marketplace.json (plugins[founder-os].version)': marketplaceEntry.version,
+    '.claude-plugin/marketplace.json (plugins[founder-wingman].version)': marketplaceEntry.version,
   };
 
   const unique = new Set(Object.values(versions));

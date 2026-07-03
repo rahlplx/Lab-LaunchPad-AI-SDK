@@ -1,4 +1,7 @@
-# founder-os
+# Solo Founder's Wingman
+
+_(plugin id: `founder-wingman`; repo directory: `founder-os/` — kept
+as-is, see below)_
 
 An agent-agnostic plugin — installable in **Claude Code**, **OpenCode**, and
 **Codex CLI** — for non-technical solo founders building products with AI
@@ -7,15 +10,18 @@ code the agent writes, so the plugin's job is to (a) stop or pause risky
 actions before they run, and (b) force "this is done" claims to be backed by
 actual evidence instead of the agent's own say-so.
 
-> **Not affiliated with any other project or product sharing a similar
-> name.** "Founder OS" / "founder-os" collides with several unrelated
-> things already in the wild — a SaaS onboarding-analytics product at
-> `founderos.com`, and multiple unrelated GitHub repositories (including at
-> least one AI-agent-orchestrator project that also happens to be called
-> `founder-os`). If you found this repo by searching for one of those, this
-> is not it. This naming collision is a known open issue — see
-> [CHANGELOG.md](./CHANGELOG.md) — and the plugin may be renamed before a
-> real 1.0 release specifically to resolve it.
+> **Renamed from "founder-os."** The old name collided with several
+> unrelated things already in the wild — a SaaS onboarding-analytics
+> product at `founderos.com`, and multiple unrelated GitHub repositories
+> (including at least one AI-agent-orchestrator project also called
+> `founder-os`) — a known issue flagged since the plugin's early releases.
+> This rename resolves it (see `CHANGELOG.md` and `DECISIONS.md` for the
+> dated record). The repo's internal directory path stays `founder-os/`
+> deliberately — renaming the directory itself would rewrite every
+> relative path in the codebase for no user-facing benefit; only the
+> product name and the installable plugin/package identifiers changed.
+> If you installed the plugin under the old `founder-os` marketplace id,
+> see "Installing" below to move to `founder-wingman`.
 
 ## What this is (and isn't)
 
@@ -60,13 +66,13 @@ actual evidence instead of the agent's own say-so.
   coverage. This was independently identified by four external audits of
   this codebase; see `CHANGELOG.md` for what was fixed and what's
   structural.
-- **Codex CLI has no code-level enforcement hook that founder-os uses
+- **Codex CLI has no code-level enforcement hook that Solo Founder's Wingman uses
   today.** Its protection is `approval_policy`/`sandbox_mode` defaults
   only — a real, human-in-the-loop gate, but weaker than Claude Code/
   OpenCode's ability to automatically block a specific command. Codex CLI
   does expose its own separate `hooks` feature (confirmed stable/enabled
   via `codex features list`, with a wire vocabulary that closely mirrors
-  Claude Code's own hook contract), but founder-os doesn't build against
+  Claude Code's own hook contract), but the plugin doesn't build against
   it yet — it's only installable through Codex's plugin/marketplace
   system, not a plain config file, and verifying it actually intercepts a
   tool call requires a real authenticated session that wasn't available
@@ -75,7 +81,7 @@ actual evidence instead of the agent's own say-so.
   block. Rules meant to just pause for confirmation on Claude Code become
   full blocks on OpenCode. Confirmed live: both a `"block"` rule and a
   `"confirm"` rule surface identically as a thrown tool error.
-- **OpenCode doesn't auto-discover founder-os's skills, subagents, or
+- **OpenCode doesn't auto-discover this plugin's skills, subagents, or
   commands.** The safety hook works out of the box, but the skill
   library needs `skills.paths` explicitly configured (see
   `templates/opencode.jsonc.tpl`), and the 3 bundled subagents and 5
@@ -109,7 +115,7 @@ actual evidence instead of the agent's own say-so.
   at the OS level, and disproved `config.toml.snippet`'s claim that a
   project-scoped `.codex/config.toml` is read at all (it isn't — see
   `FAILURE-MODES.md` #29). It also surfaced a real open question — Codex
-  now has its own `hooks` feature that founder-os doesn't use yet — that
+  now has its own `hooks` feature that the plugin doesn't use yet — that
   couldn't be resolved without a real authenticated session; see
   `FAILURE-MODES.md` #22.
 
@@ -123,17 +129,20 @@ still open.
 
 ## Installing
 
-**Claude Code** — via a marketplace (recommended once published): add this
-repo as a marketplace source, then install the `founder-os` plugin — see
-`.claude-plugin/marketplace.json` at the repo root. For local development,
-point your Claude Code plugin config directly at this `founder-os/`
-directory.
+**Claude Code** — via a marketplace: `claude plugin marketplace add
+<this-repo>` then `claude plugin install founder-wingman@lab-launchpad-ai-sdk`
+(add `--scope project` for a project-only install rather than global —
+see `.claude-plugin/marketplace.json` at the repo root for the full
+listing). If you installed under the old `founder-os` plugin id before
+this rename, run `claude plugin uninstall founder-os` first, then
+install `founder-wingman` as above. For local development, point your
+Claude Code plugin config directly at this `founder-os/` directory.
 
 **OpenCode** — copy `templates/opencode.jsonc.tpl` into the founder's
 project root as `opencode.jsonc` (not `.json` — see the template's own
 comments for why), filling in `{{FOUNDER_OS_PATH}}`. The `plugin` entry
 alone only wires up the safety hook; `skills.paths` is required too, or
-none of founder-os's skills will be discoverable (verified live — see
+none of the plugin's skills will be discoverable (verified live — see
 `FAILURE-MODES.md`). Note this only gets you the safety layer and the
 skill library — the 3 bundled subagents and 5 commands aren't reachable
 under OpenCode at all currently; see `FAILURE-MODES.md` for why.
@@ -141,7 +150,7 @@ under OpenCode at all currently; see `FAILURE-MODES.md` for why.
 **Codex CLI** — merge `adapters/codex/config.toml.snippet` into
 `~/.codex/config.toml` (global only — Codex does not read a project-scoped
 `.codex/config.toml`; verified live, see `FAILURE-MODES.md` #29). Only
-sandbox policy defaults are wired up; founder-os doesn't yet build against
+sandbox policy defaults are wired up; the plugin doesn't yet build against
 Codex's own separate `hooks` feature (see `FAILURE-MODES.md` #22).
 
 ## Development

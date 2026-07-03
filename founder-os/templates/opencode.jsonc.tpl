@@ -1,16 +1,17 @@
 {
   // Copy into the founder's project root as opencode.jsonc when the founder
   // is using OpenCode (not Claude Code) as their agent. Replace
-  // {{FOUNDER_OS_PATH}} with wherever founder-os actually lives relative to
-  // this project (e.g. a sibling directory, or an absolute path if vendored
-  // elsewhere).
+  // {{FOUNDER_OS_PATH}} with wherever Solo Founder's Wingman actually lives
+  // relative to this project (e.g. a sibling directory, or an absolute path
+  // if vendored elsewhere) -- {{FOUNDER_OS_PATH}} keeps this name since it
+  // points at the repo's founder-os/ source directory, which wasn't renamed.
   //
   // The `plugin` entry alone only wires up the safety hook (policy.json
   // enforcement) -- OpenCode's skill loader does NOT auto-discover an
   // external plugin's skills/ directory the way Claude Code does, so
-  // `skills.paths` is required too, or none of founder-os's skills (BRIEF,
+  // `skills.paths` is required too, or none of the plugin's skills (BRIEF,
   // PATH, HIRE, etc.) will be available at all. Verified live: with only
-  // `plugin` set, `opencode debug skill` finds zero founder-os skills;
+  // `plugin` set, `opencode debug skill` finds zero skills;
   // adding `skills.paths` makes all of them appear.
   //
   // (Plain opencode.json can't hold this comment -- OpenCode rejects any

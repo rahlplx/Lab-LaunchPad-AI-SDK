@@ -173,7 +173,7 @@ async function testOpenCodeIntegrationLevel() {
   withCleanLog(() => {
     // plugin.ts's evaluate() itself is pure (doesn't log) -- the same
     // contract as bin/policy-check.js's evaluate(). This confirms it still
-    // returns a ruleId for FounderOsPolicy()'s tool.execute.before handler
+    // returns a ruleId for FounderWingmanPolicy()'s tool.execute.before handler
     // to log, without actually re-testing that handler's wiring here
     // (that would require standing up a real OpenCode plugin.execute.before
     // invocation, which is exercised structurally in
@@ -181,7 +181,7 @@ async function testOpenCodeIntegrationLevel() {
     const rules = loadPolicy();
     const result = evaluate(rules, 'bash', { command: 'rm -rf /' });
     check(
-      "plugin.ts's evaluate() returns a ruleId alongside the decision, for FounderOsPolicy() to log",
+      "plugin.ts's evaluate() returns a ruleId alongside the decision, for FounderWingmanPolicy() to log",
       result.decision === 'block' && result.ruleId === 'destructive-rm-rf',
       JSON.stringify(result)
     );

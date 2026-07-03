@@ -69,7 +69,7 @@ function main() {
     if (e.ruleId) byRule[e.ruleId] = (byRule[e.ruleId] || 0) + 1;
   }
 
-  console.log(`Founder OS safety log summary -- ${entries.length} intervention(s) ${scopeLabel}`);
+  console.log(`Solo Founder's Wingman safety log summary -- ${entries.length} intervention(s) ${scopeLabel}`);
   console.log('='.repeat(60));
   for (const [decision, count] of Object.entries(byDecision)) {
     console.log(`  ${count.toString().padStart(3)}  ${decision}`);
