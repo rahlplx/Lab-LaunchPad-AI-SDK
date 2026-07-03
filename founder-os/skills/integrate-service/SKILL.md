@@ -29,6 +29,13 @@ exists to make that trust checkable instead of blind.
    expect and respect the confirmation prompt, don't route around it.
    Vercel is read-only/status-only and cannot trigger deploys.
 
+   **Name the cost shape before connecting, not after.** A non-technical
+   founder often doesn't realize a new integration bills them —
+   explicitly say whether the service being connected has a free tier,
+   a usage-based cost, or a flat monthly fee, before finishing the
+   connection. For anything with a real ongoing cost, run `/check-costs`
+   for the fuller picture rather than a one-line mention here.
+
 4. **Use AI to connect it.** Give the agent the specific need plus the
    relevant docs, following PLUG's own phrasing: "Connect X to my app so I
    can Y."

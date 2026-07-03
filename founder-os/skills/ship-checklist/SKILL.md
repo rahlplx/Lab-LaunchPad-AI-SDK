@@ -31,7 +31,13 @@ check before that happens, run fresh, every time.
    anything data-heavy, sanity-check there's no obvious unbounded fetch or
    N+1 query introduced this session.
 
-6. **Report one Red/Yellow/Green SHIP verdict.** If Green, pause and wait
+6. **Cost check before the first real deploy specifically.** The very
+   first time this checklist runs Green for a given project, also run
+   `/check-costs` — a founder shipping for the first time needs to know
+   what they're about to start being billed for, not just whether the
+   code works.
+
+7. **Report one Red/Yellow/Green SHIP verdict.** If Green, pause and wait
    for explicit founder confirmation before running `git push` — a Green
    verdict means it's safe to ask, not license to push automatically. Red
    or Yellow means fix first — don't ship with a caveat attached instead

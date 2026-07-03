@@ -565,3 +565,17 @@ own self-report) that PRD.md's `## Data model` gained both the expected
 prose and a syntactically real, well-formed `flowchart LR` block with
 correctly connected subgraphs and arrows — and that
 `lint-prd.js --require-diagram` independently passes against the result.
+
+## 32. `cost_sensitive` `policy.json` rules only watch `aws`/`gcloud`/`az`/`terraform` — MEDIUM — ACCEPTED RISK, tracked for expansion
+
+**What was found, live:** while live-testing the new `/check-costs`
+skill against a project with Vercel wired in `.mcp.json`, the skill
+itself (following its own instructions to cross-check
+`policy.json`'s `cost_sensitive` rules) correctly noticed and reported
+that `cost-cloud-resource-create` only matches `aws`/`gcloud`/`az`/
+`terraform` commands — a Vercel deploy/project-creation action isn't
+covered at all, despite Vercel having its own real billing tiers.
+Structurally the same class of gap as #24 (secret detection is narrow by
+provider coverage, not by design flaw) — tracked here rather than left
+to be rediscovered, since the new cost-related skills now actively
+surface it to founders.

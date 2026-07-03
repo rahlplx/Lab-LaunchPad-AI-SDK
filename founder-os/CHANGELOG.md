@@ -32,6 +32,49 @@ what a command expects) bump the **major** version.
 
 ### Security
 
+## [0.8.0] - 2026-07-03
+
+Closes the audit's "no distribution/launch guidance," "no cost/budget
+awareness," "no growth-stage guidance," and "no monitoring setup
+guidance" gaps with 6 new skills — a genuine skill-library expansion,
+hence the minor bump.
+
+### Added
+- `skills/plan-launch/SKILL.md` — pre-launch checklist, channel
+  selection, launch-day playbook. Use after `/ship-checklist` goes Green.
+- `skills/read-analytics/SKILL.md` — turns PostHog/Plausible numbers into
+  one plain-language sentence and one next action.
+- `skills/process-feedback/SKILL.md` — turns raw user feedback into a
+  prioritized, WHEN/THEN-shaped backlog.
+- `skills/check-costs/SKILL.md` — reviews `.mcp.json`'s actually-wired
+  integrations for real billing risk, cross-referenced against
+  `policy.json`'s `cost_sensitive` rules. Also referenced from
+  `/ship-checklist` (first Green run) and `/integrate-service` (before
+  connecting a new service).
+- `skills/growth-check/SKILL.md` — stage-appropriate advice for
+  0-100 / 100-1,000 / 1,000-10,000+ users, explicitly naming what NOT to
+  worry about yet at each stage.
+- `skills/setup-monitoring/SKILL.md` — guides the 3 monitors every
+  founder needs (uptime, errors, usage) using the Sentry/PostHog MCP
+  servers already wired, verifying each actually fires on a real test
+  signal rather than just being configured.
+
+### Changed
+- Live-tested `/check-costs`, `/growth-check`, and `/plan-launch` in real
+  `claude --plugin-dir` sessions against realistic scenarios — each
+  produced sensible, project-specific plain-language output (not generic
+  advice), and correctly cross-referenced other skills/rules by name.
+- `/check-costs`'s own live test surfaced a real, previously undocumented
+  gap: `policy.json`'s `cost-cloud-resource-create` rule only matches
+  `aws`/`gcloud`/`az`/`terraform` commands, not Vercel deploy/project
+  actions despite Vercel having real billing tiers. Tracked as
+  `FAILURE-MODES.md` #32 rather than silently left for someone to
+  rediscover.
+
+### Fixed
+
+### Security
+
 ## [0.7.0] - 2026-07-03
 
 Closes the audit's "no visual output" gap for `/map-architecture` — a new

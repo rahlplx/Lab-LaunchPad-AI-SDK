@@ -26,11 +26,13 @@ actual evidence instead of the agent's own say-so.
 ## What this is (and isn't)
 
 **In scope:**
-- A lifecycle orchestrator and skill library (16 skills implementing named
+- A lifecycle orchestrator and skill library (23 skills implementing named
   frameworks — BRIEF, HIRE, SHOW, LEGO, PLUG, PATH, SHIP, LOCK, SEB,
-  3-Layer Review, 3-3-3, smell-test, plus commit-discipline and
-  session-handoff skills) that guides a founder from idea to shipped
-  product using an AI coding agent.
+  3-Layer Review, 3-3-3, smell-test, plus commit-discipline,
+  session-handoff, onboarding, and post-launch (distribution, analytics,
+  feedback, cost, growth-stage, monitoring) skills) that guides a founder
+  from idea to shipped product to sustained growth using an AI coding
+  agent.
 - A safety/policy layer that intercepts destructive, secret-leaking, or
   cost-risky agent actions before they run, on platforms that support it.
 - A document engine that generates and maintains `PRD.md`, `AGENTS.md`,
@@ -161,6 +163,19 @@ doesn't seem to trigger it, just describe what you want in plain language
 ("help me get oriented") instead — live-testing found the short slash form
 isn't always reliably routed by the model (structural, not a bug we can
 fully fix; see `FAILURE-MODES.md` #30), but natural language always worked.
+
+**After shipping:** the lifecycle doesn't stop at `/ship-checklist`.
+`/plan-launch` (pick one channel, draft a launch-day playbook),
+`/read-analytics` (turn PostHog/Plausible numbers into one plain
+sentence and one next action), `/process-feedback` (turn raw user
+feedback into a prioritized backlog), `/check-costs` (name real billing
+risk in what's actually wired in `.mcp.json`, also run automatically as
+part of `/ship-checklist`'s first Green run and `/integrate-service`),
+`/growth-check` (stage-appropriate advice for 0-100 / 100-1,000 /
+1,000-10,000+ users), and `/setup-monitoring` (the 3 monitors every
+founder needs — uptime, errors, usage — using what's already wired, not
+new services) close the "now get users" gap the plugin used to drop
+founders at.
 
 ## Development
 
