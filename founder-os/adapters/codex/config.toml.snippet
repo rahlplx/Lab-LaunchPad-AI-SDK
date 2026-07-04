@@ -1,0 +1,68 @@
+# founder-os recommended Codex CLI configuration.
+#
+# founder-os's own PreToolUse-style interception (like Claude Code's
+# hooks.json or OpenCode's tool.execute.before) is NOT wired up for Codex --
+# this file only gives you policy/sandbox-level protection, per OpenAI's own
+# documented guidance. It's a real, human-in-the-loop gate (nothing runs
+# outside the sandbox without your approval), just a weaker guarantee than
+# code-level interception. This gap is documented for the founder in the
+# generated AGENTS.md "Known Limitations by Platform" section -- it is not
+# hidden. (Codex CLI does expose its own separate `hooks` feature --
+# `codex features list` shows it stable/enabled, and its wire vocabulary
+# -- PreToolUse/PostToolUse/SessionStart/SubagentStart/UserPromptSubmit,
+# hooks.json -- closely mirrors Claude Code's. founder-os doesn't use it yet:
+# it's only installable through Codex's plugin/marketplace system, not a
+# plain config file, and verifying it actually intercepts a tool call
+# requires a real authenticated session this environment doesn't have. See
+# FAILURE-MODES.md for the full evidence trail and open status.)
+#
+# Merge this into ~/.codex/config.toml. Codex CLI does NOT read a
+# project-scoped .codex/config.toml -- verified directly via `codex doctor
+# --json`: distinguishing values set in a project's .codex/config.toml
+# (model, approval_policy, sandbox_mode) had zero effect on what `codex
+# doctor` reported, which only ever reflected $CODEX_HOME/config.toml
+# (default ~/.codex/config.toml) or a named global profile
+# ($CODEX_HOME/<name>.config.toml via -p/--profile). If you need
+# per-project values, use a named profile and pass -p/--profile per project,
+# or a CLI -c override -- there is no per-project config file today.
+
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+
+# Do NOT set approval_policy = "never" combined with
+# sandbox_mode = "danger-full-access" -- OpenAI's own docs explicitly warn
+# against this combination.
+
+# --- MCP servers -----------------------------------------------------------
+# Local/stdio servers are well-documented for Codex's config.toml. Several of
+# our integrations (Supabase, Stripe, Vercel, Sentry) now default to
+# vendor-hosted remote servers with OAuth -- verify current Codex support for
+# remote/URL-based MCP servers before assuming the syntax below; only the
+# local stdio pattern is confirmed as of this writing.
+#
+# Versions below are pinned to what was current on the npm/container
+# registries as of this writing (July 2026) -- update deliberately, not via
+# an unpinned @latest, per the supply-chain finding from the external audit
+# round that flagged this file.
+
+[mcp_servers.playwright]
+command = "npx"
+args = ["-y", "@playwright/mcp@0.0.77"]
+
+# @modelcontextprotocol/server-github is DEPRECATED on the npm registry
+# ("Package no longer supported") -- confirmed by checking `npm view
+# @modelcontextprotocol/server-github deprecated` directly, not assumed.
+# The real official GitHub MCP server (github/github-mcp-server) ships as a
+# Docker image; requires Docker installed, which is a real dependency this
+# adds for Codex users specifically (Claude Code/OpenCode use the simpler
+# remote HTTP endpoint instead -- see .mcp.json -- since Codex's config.toml
+# only confirms local/stdio server support).
+[mcp_servers.github]
+command = "docker"
+args = ["run", "-i", "--rm", "-e", "GITHUB_PERSONAL_ACCESS_TOKEN", "ghcr.io/github/github-mcp-server:v1.5.0"]
+[mcp_servers.github.env]
+GITHUB_PERSONAL_ACCESS_TOKEN = "${GITHUB_TOKEN}"
+
+# Supabase, Stripe, Vercel, Sentry, PostHog: see references/mcp-servers.md
+# for their current (mostly remote+OAuth) connection details. Add them here
+# once remote MCP server support in Codex's config.toml is confirmed.

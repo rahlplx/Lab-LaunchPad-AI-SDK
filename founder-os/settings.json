@@ -1,0 +1,6 @@
+{
+  "policyStrictness": "normal",
+  "explainBeforeAct": true,
+  "verifyGateOnDone": true,
+  "docSyncOnCommit": true
+}
